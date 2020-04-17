@@ -246,6 +246,28 @@ header {
     margin-left: 10px;
 }
 
+/* === PAGINAÇÃO === */
+
+.pagination {
+    max-width: 1000px;
+    margin: 0 auto;
+    align-self: end;
+    
+}
+
+.pagination a, 
+.pagination span {
+    color: #6558C3;
+    text-decoration: none;
+    margin-right: 16px;
+    
+}
+
+.pagination a:hover {
+    filter: brightness(0.3);
+    border-bottom: 1px solid #6558C3;
+}
+
 /* === ADMIN === */
 
 .adm_header{

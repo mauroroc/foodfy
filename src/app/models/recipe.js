@@ -78,8 +78,25 @@ module.exports = {
             callback();
         }
     },
-    findBy(filter, callback) {
-        db.query(`SELECT 
+    findBy(params) {
+        const { filter, limit, offset, callback } = params;
+
+        let query = "",
+            filterQuery = "",
+            totalQuery = `(SELECT count(*) FROM recipes ) as total`
+
+            if ( filter ) {
+                filterQuery = `${query} 
+                WHERE recipes.title
+                    ILIKE '%${filter}%'
+                    OR chefs.name ILIKE '%${filter}%'`;
+                
+                totalQuery = `(SELECT count(*) FROM recipes LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
+                    ${filterQuery}    
+                    ) as total`
+            };
+
+        query = `SELECT 
             recipes.id,
             recipes.image,
             recipes.title,
@@ -88,14 +105,15 @@ module.exports = {
             recipes.information,
             recipes.chef_id,
             recipes.created_at,
-            chefs.name as namechef
+            chefs.name as namechef,
+            ${totalQuery}
             FROM recipes
             LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
-            WHERE recipes.title ILIKE '%${filter}%'
-            OR chefs.name ILIKE '%${filter}%'
-            ORDER BY recipes.title
-            `, (err, results) => {
-                if(err) throw `Erro no Banco de Dados ${err}`;
+            ${filterQuery}
+            LIMIT $1 OFFSET $2 `;
+            console.log(query, limit, offset);
+            db.query(query, [limit, offset], (err, results) => {
+                if(err) throw `Erro no Banco de Dados ${err}`
                     callback(results.rows);
             });
     },

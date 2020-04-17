@@ -12,11 +12,28 @@ module.exports = {
     },
     list(req, res) 
     { 
-        const { filter } = req.query;
+        let { filter, page, limit } = req.query;
+
+        page = page || 1
+        limit = limit || 2
+        let offset = limit * (page - 1)
+
+        const params = {
+            filter,
+            page,
+            limit,
+            offset,
+            callback(items) {
+                const pagination = {
+                    total: Math.ceil(items[0].total/limit),
+                    page
+                }
+                return res.render("busca", { items, pagination, filter });
+            }
+        }
+
         if (filter) {
-            Recipe.findBy(filter, (items)=> {
-                return res.render("busca", { items, filter });
-            }); 
+            Recipe.findBy(params); 
         } else {
             Recipe.all((items)=> {
                 return res.render("receitas", { items });
