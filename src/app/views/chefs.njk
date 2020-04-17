@@ -1,0 +1,22 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+
+    <section class="adm_chefs">
+    {% for item in items %}
+        <div class="adm_chef_item">
+            <div>
+                <img src="img/{{item.avatar_url}}" alt="{{item.name}}">
+            </div>
+            <div>
+                <h4>
+                    {{item.name}}
+                </h4>
+                <h3>
+                    {{item.total_recipes}} Receita(s)
+                </h3> 
+            </div>
+        </div>
+    {% endfor %}
+    </section>
+{% endblock %}

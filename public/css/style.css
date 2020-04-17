@@ -1,0 +1,549 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
+
+* {
+    margin:0;
+    padding:0;
+    border:0;
+    
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    align-content: center;
+    width: 100%;
+}
+
+header {
+    width: 1000px;
+    margin: 0 auto;
+    margin-top: 20px;
+    color: black;
+    background:white;
+    text-align: left;
+    display: grid;
+    grid-template-columns: 0.5fr 1.5fr 1fr;
+}
+
+.links {
+    font-family: Roboto-Regular;
+    font-size: 16px;
+    color: #111111;
+    text-align: left;
+}
+
+.links a {
+    color: black;
+    font-size: 18px;
+    line-height: 28px;
+    margin: 0 16px;
+    text-decoration: none;
+}
+
+.links a:hover {
+    color:#FBDFDB;
+    transition: color 200ms;
+}
+
+.search form input {
+    background: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px; 
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    color: #999999;
+    height:25px;
+}
+
+.search form button {
+    background: #6558C3;
+    border-radius: 4px;
+    font-family: Roboto-Bold;
+    font-size: 16px;
+    color: #FFFFFF;
+    padding: 5px;
+}
+
+#banner {
+    width: 1000px;
+    margin: 0 auto;
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #FBDFDB;
+    border-radius: 30px;
+}
+
+#banner .banner_texto {
+    padding: 50px;
+    margin: 0 auto;
+
+}
+
+#banner .banner_texto h1 {
+    font-family: Roboto-Bold;
+    font-size: 32px;
+    color: #111111;
+}
+
+#banner .banner_texto p {
+    padding-top: 16px;
+    width: 75%;
+    opacity: 0.7;
+    font-family: Roboto-Regular;
+    font-size: 18px;
+    color: #000000;
+    line-height: 28px;
+}
+
+#banner .banner_imagem {
+    margin: 0 auto;
+}
+
+/*=== CARDS ===*/
+
+.cards {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+}
+
+.cards-title {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-top: 50px;
+    font-family: Roboto-Bold;
+    font-size: 24px;
+    color: #111111;
+}
+
+.card {
+    margin: 0 auto;
+    
+}
+
+.card_item {
+    font-family: Roboto-Regular;
+    
+}
+
+.card_item a {
+    text-decoration: none;
+}
+
+.card_item img {
+    width: 312px;
+    height: 94px;
+    border-radius: 15px;
+    margin-bottom: 16px;
+}
+
+.card_item h4 {
+    font-size: 18px;
+    color: #111111;
+    margin-bottom: 8px;
+}
+
+.card_item p {
+    font-size: 14px;
+    color: #777777;
+}
+
+.footer {
+    background: #EEEEEE;
+}
+
+.footer p {
+    margin-top: 30px;
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    color: #999999;
+    text-align: center;
+    padding: 20px;
+}
+
+/* === SOBRE ===*/
+
+.content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-top: 50px;
+    color: #111111;
+}
+
+.title {
+    font-family: Roboto-Bold;
+    font-size: 24px;
+    color: #111111;
+}
+
+.text {
+    font-family: Roboto-Regular;
+    font-size: 18px;
+    color: #444444;
+    line-height: 28px;
+    padding: 10px 0px;
+}
+
+.subtitle {
+    font-family: Roboto-Bold;
+    font-size: 20px;
+    color: #111111;
+    padding: 10px 0px;
+}
+
+/* === RECEITA ===*/
+
+.receipt {
+    max-width: 1000px;
+    margin: 0 auto;
+    color: #111111;
+    margin-top: 20px;
+}
+
+.receipt h2 {
+    font-family: Roboto-Bold;
+    font-size: 36px;
+    color: #111111;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.receipt h4 {
+    font-family: Roboto-Regular;
+    font-size: 20px;
+    color: #777777;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.receipt h3 {
+    font-family: Roboto-Bold;
+    font-size: 24px;
+    color: #111111;
+    margin-top: 20px;
+}
+
+.receipt p, li {
+    font-family: Roboto-Regular;
+    font-size: 18px;
+    color: #444444;
+    line-height: 28px;
+    margin-top: 10px;
+}
+
+.receipt li {
+    margin-left: 20px;
+}
+
+.receipt button {
+    font-family: Roboto-Bold;
+    font-size: 12px;
+    color: #999999;
+    margin-left: 10px;
+}
+
+/* === ADMIN === */
+
+.adm_header{
+    width: 100%;
+    margin: 0 auto;
+    background: #111111;
+    display: grid;
+    grid-template-columns: 0.5fr 1.5fr;
+}
+.adm_marca {
+    padding: 30px;
+    margin-left: 220px;
+}
+
+.adm_links {
+    padding: 30px;
+}
+
+.adm_links a {
+    font-family: Roboto-Regular;
+    font-size: 15px;
+    color: #FFFFFF;
+    text-align: left;
+    text-decoration: none;
+    padding: 20px;
+}
+
+.adm_cards {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+}
+
+.adm_card_item {
+    font-family: Roboto-Regular;
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 5px;
+}
+
+.adm_card_item img {
+    width: 172px;
+    height: 80px;
+    border-radius: 8.57px;
+}
+
+.adm_card_item h4 {
+    font-family: Roboto-Regular;
+    font-size: 18px;
+    color: #111111;
+    line-height: 30px;
+}
+
+.adm_card_item p {
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    color: #777777;
+    line-height: 16px;
+}
+
+.adm_card_item a {
+    font-family: Roboto-Bold;
+    font-size: 14px;
+    color: #6558C3;
+    line-height: 32px;
+    text-decoration: none;
+}
+
+.detail-top {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    margin-top: 50px;
+}
+
+.detail-top-title {
+    font-family: Roboto-Bold;
+    font-size: 24px;
+    color: #111111;
+    display: block;
+}
+
+.detail-top-button {
+    text-align: right;
+}
+
+.detail-top-button a {
+    background: #6558C3;
+    border-radius: 4px;
+    font-family: Roboto-Bold;
+    font-size: 16px;
+    color: #FFFFFF;
+    padding: 10px;
+    text-decoration: none;
+    
+}
+
+.btnSave {
+    background: #6558C3;
+    border-radius: 4px;
+    font-family: Roboto-Bold;
+    font-size: 16px;
+    color: #FFFFFF;
+    padding: 10px;
+}
+
+.btnDelete {
+    background: #DC4747;
+    border-radius: 4px;
+    font-family: Roboto-Bold;
+    font-size: 16px;
+    color: #FFFFFF;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.detail-receipt {
+    max-width: 1000px;
+    margin: 0 auto;
+    color: #111111;
+}
+
+.detail-receipt img {
+    border-radius: 15px;
+}
+
+.detail-receipt h2 {
+    font-family: Roboto-Bold;
+    font-size: 36px;
+    color: #111111;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.detail-receipt h4 {
+    font-family: Roboto-Regular;
+    font-size: 20px;
+    color: #777777;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.detail-receipt h3 {
+    font-family: Roboto-Bold;
+    font-size: 24px;
+    color: #111111;
+    margin-top: 20px;
+}
+
+.detail-receipt p, li {
+    font-family: Roboto-Regular;
+    font-size: 18px;
+    color: #444444;
+    line-height: 28px;
+    margin-top: 10px;
+}
+
+.detail-receipt li {
+    margin-left: 20px;
+}
+
+.form-receipt {
+    max-width: 1000px;
+    margin: 0 auto;
+    color: #111111;
+}
+
+.form-receipt h4 {
+    font-family: Roboto-Bold;
+    font-size: 16px;
+    color: #111111;
+    margin-top: 20px;
+}
+
+.form-receipt input {
+    background: #FFFFFF;
+    width: 100%;
+    height: 50px;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+.form-receipt select {
+    background: #FFFFFF;
+    width: 100%;
+    height: 50px;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+.form-receipt button {
+    font-family: Roboto-Bold;
+    font-size: 16px;
+    background-color: white;
+    color: #6558C3;
+    text-align: right;
+}
+
+.form-receipt textarea {
+    background: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    width: 100%;
+}
+
+/* === ADMIN CHEFS === */
+.adm_chefs {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 12px;
+}
+
+.adm_chef_item {
+    font-family: Roboto-Regular;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    align-items: center;
+    gap: 5px;
+}
+
+.adm_chef_item img {
+    width: 64px;
+    height: 64px;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+}
+
+.adm_chef_item h4 {
+    font-family: Roboto-Regular;
+    font-size: 18px;
+    color: #111111;
+    line-height: 30px;
+}
+
+.adm_chef_item h3 {
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    color: #666666;
+    line-height: 30px;
+}
+
+.adm_chef_item p {
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    color: #777777;
+    line-height: 16px;
+}
+
+.adm_chef_item a {
+    font-family: Roboto-Bold;
+    font-size: 14px;
+    color: #6558C3;
+    line-height: 32px;
+    text-decoration: none;
+}
+
+.detail-chef {
+    max-width: 1000px;
+    margin: 0 auto;
+    color: #111111;
+    text-align: center;
+}
+
+.detail-chef img {
+    border-radius: 50%;
+}
+
+.detail-chef h2 {
+    font-family: Roboto-Bold;
+    font-size: 36px;
+    color: #111111;
+    margin-top: 20px;
+}
+
+.detail-chef h4 {
+    font-family: Roboto-Regular;
+    font-size: 20px;
+    color: #777777;
+    margin-top: 10px;
+}
+
+.receipts-chef {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.receipts-chef h3 {
+    font-family: Roboto-Bold;
+    font-size: 24px;
+    color: #111111; 
+}

@@ -1,0 +1,45 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+
+<script>
+    function Mostra(el) {
+            var display = document.getElementById(el).style.display;
+            if(display == "none") {
+                document.getElementById(el).style.display = 'block';
+                document.getElementById('btn'+el).textContent = 'ESCONDER';
+            }
+            else {
+                document.getElementById(el).style.display = 'none';
+                document.getElementById('btn'+el).textContent = 'MOSTRAR';
+            }
+        }
+</script>
+
+     <section class="receipt">
+            <img src="{{item.image}}" alt="{{item.title}}">
+             <h2>
+                {{item.title}}
+            </h2>
+            <h4>
+                {{item.namechef}}
+            </h4>
+            <h3>Ingredientes<button type="button" id="btningredients" onclick="Mostra('ingredients')">ESCONDER</button></h3>
+            <ul id="ingredients">
+                {% for item in item.ingredients %}
+                <li>{{item}}</li>
+                {% endfor %}
+            </ul>
+            <h3>Modo de preparo<button type="button" id="btnpreparation" onclick="Mostra('preparation')">ESCONDER</button></h3>
+            <ul id="preparation">
+                {% for item in item.preparation %}
+                <li>{{item}}</li>
+                {% endfor %}
+            </ul>
+            <h3>Informações Adicionais<button type="button" id="btninformation" onclick="Mostra('information')">ESCONDER</button></h3>
+            <p id="information">
+            {{item.information}}
+            </p>
+        </section>   
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "admin/adm_layout.njk" %}
+
+{% block content %}
+
+    <div class="detail-top">
+        <div class="detail-top-title">
+            <h3>Gerenciar Receitas</h3>
+        </div>
+        <div class="detail-top-button">
+            <a href="/admin/recipes/create">Cadastrar Receita</a>
+        </div>
+    </div>
+
+    {% include "admin/include_receitas.njk" %}
+{% endblock %}

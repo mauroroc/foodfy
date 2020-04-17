@@ -1,0 +1,23 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+
+    <h2 class="cards-title">Buscando por "{{filter}}"</h2>
+
+    <section class="cards">
+    {% for item in items %}
+        <div class="card_item">
+            <a href="/receita/{{item.id}}">
+                <img src="{{item.image}}" alt="{{item.title}}">
+                <h4>
+                    {{item.title}}
+                </h4>
+                <p>
+                    {{item.namechef}}
+                </p>
+            </a>
+        </div>
+    {% endfor %}
+    </section>
+
+{% endblock %}

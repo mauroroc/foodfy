@@ -1,0 +1,112 @@
+    <h4>Titulo da receita</h4> 
+        <input 
+            type="text" 
+            name="title" 
+            placeholder="Coloque o nome da receita"
+            value="{{item.title}}"
+        >
+    <h4>Chef</h4> 
+        <select name="author" placeholder="Coloque o nome do autor da receita">
+            {% for chef in chefs %}
+                <option value="{{chef.id}}" {% if chef.id == item.chef_id %} selected {% endif %}>{{chef.name}}</option>
+            {% endfor %}     
+        </select>
+    <h4>Imagem da receita</h4> 
+        <input 
+            type="text" 
+            name="image" 
+            placeholder="Coloque a url da foto da receita pronta"
+            value="{{item.image}}"
+        >
+    <h4>Ingredientes</h4> 
+    <div id="ingredients">
+        <div class="ingredient">
+            {% if item.ingredients == null %}
+                <input 
+                    type="text" 
+                    name="ingredients[]"
+                    value="" 
+                    placeholder="Coloque cada ingrediente da receita"                    
+                >
+            {% endif %}
+            {% for i in item.ingredients %}
+                <input 
+                    type="text" 
+                    name="ingredients[]" 
+                    value="{{i}}"
+                >
+            {% endfor %}
+        </div>        
+    </div>
+    <button type="button" class="add-ingredient">Adicionar Ingrediente</button>
+    <h4>Modo de preparo</h4> 
+    <div id="preparations">
+        <div class="preparation">
+            {% if item.preparation == null %}
+                <input 
+                    type="text" 
+                    name="preparation[]" 
+                    value=""
+                    placeholder="Coloque cada passo do modo de preparo"                    
+                >
+            {% endif %}
+            {% for i in item.preparation %}
+                <input 
+                    type="text" 
+                    name="preparation" 
+                    value="{{i}}"
+                >
+            {% endfor %}
+        </div>
+    </div>
+    <button type="button" class="add-preparation">Adicionar Modo de Preparo</button>
+    <h4>Informações adicionais</h4> 
+        <textarea 
+            name="information" 
+            placeholder="Insira as informações adicionais" 
+            rows="10"
+        >
+            {{item.information}}
+        </textarea>
+        <input type="hidden" name="id" value="{{item.id}}">
+
+<script>
+    function addIngredient() {
+        const ingredients = document.querySelector("#ingredients");
+        const fieldContainer = document.querySelectorAll(".ingredient");
+
+        // Realiza um clone do último ingrediente adicionado
+        const newField = fieldContainer[fieldContainer.length - 1].cloneNode(true);
+
+        // Não adiciona um novo input se o último tem um valor vazio
+        if (newField.children[0].value == "") return false;
+
+        // Deixa o valor do input vazio
+        newField.children[0].value = "";
+        ingredients.appendChild(newField);
+    }
+
+    document
+    .querySelector(".add-ingredient")
+    .addEventListener("click", addIngredient);
+
+    function addPreparation() {
+        const preparation = document.querySelector("#preparations");
+        const fieldContainer = document.querySelectorAll(".preparation");
+
+        // Realiza um clone do último ingrediente adicionado
+        const newField = fieldContainer[fieldContainer.length - 1].cloneNode(true);
+
+        // Não adiciona um novo input se o último tem um valor vazio
+        if (newField.children[0].value == "") return false;
+
+        // Deixa o valor do input vazio
+        newField.children[0].value = "";
+        preparation.appendChild(newField);
+    }
+
+    document
+    .querySelector(".add-preparation")
+    .addEventListener("click", addPreparation);
+</script>
+    
