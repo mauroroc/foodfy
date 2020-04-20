@@ -5,11 +5,26 @@
             placeholder="Coloque o nome do chef"
             value="{{item.name}}"
         >
-    <h4>Avatar</h4> 
-        <input 
+    <h4>Avatar</h4>
+        {% if item.id != null %}
+            <input 
             type="text" 
             name="avatar" 
-            placeholder="Coloque o avatar do chef"
             value="{{item.avatar}}"
-        >
+            >
+        {% endif %}
+        <div class="photos-upload">
+            <input 
+                id="file1"
+                type="file" 
+                name="avatar"
+                accept="image/*"
+                class="boxUploadChef"
+            >
+            <label for="file1" class="lblUpload2">Enviar Avatar</label>
+        <div class="photos-preview">
+        
+        </div>
     <input type="hidden" name="id" value="{{item.id}}">
+
+    

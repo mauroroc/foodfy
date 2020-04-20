@@ -1,6 +1,7 @@
 {% extends "admin/adm_layout.njk" %}
 
 {% block content %}
+    <script src="/js/upload.js"></script>
     <form method="POST" action="/admin/recipes">
         <div class="detail-top">
             <div class="detail-top-title">
@@ -14,5 +15,6 @@
             {% include "admin/fields.njk" %}     
         </section>   
     </form>   
+    
 
 {% endblock %}

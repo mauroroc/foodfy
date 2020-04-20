@@ -569,3 +569,87 @@ header {
     font-size: 24px;
     color: #111111; 
 }
+
+/* UPLOAD */
+
+.form-receipt [type="file"] {
+    height: 0;
+    overflow: hidden;
+    width: 0;
+}
+
+.lblUpload  {
+    background: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 3.5px;
+    font-family: Helvetica-Bold;
+    font-size: 50px;
+    color: #777777;;
+    text-align: center;
+    cursor: pointer;
+    display: inline-block;
+    padding: 50px;
+}
+
+.lblUpload2 {
+    background: #6558C3;
+    border-radius: 4px;
+    font-family: Helvetica-Bold;
+    font-size: 16px;
+    color: #FFFFFF;
+    text-align: right;
+    cursor: pointer;
+    display: inline-block;
+    padding: 1rem 50px;
+    
+} 
+
+.form-receipt .photos-upload {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-gap: 8px;
+    width: 100%;
+    margin: 8px 0;
+    text-align: center;
+}
+
+.form-receipt #photos-preview {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 8px;
+    width: 100%;
+    margin: 8px 0;
+}
+
+.form-receipt #photos-preview img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 1px solid #DDDDDD;
+    border-radius: 3.5px;   
+}
+
+#photos-preview .photo {
+    position: relative;
+}
+
+#photos-preview .photo i {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(255,255,255,0.8);
+    color: red;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 500%;
+    cursor: pointer;
+    transition: opacity 200ms;
+    opacity: 0;
+}
+
+#photos-preview .photo:hover i {
+    opacity: 1;
+}
