@@ -12,13 +12,6 @@
             {% endfor %}     
         </select>
     <h4>Imagens da receita</h4> 
-
-        <!--<input 
-            type="text" 
-            name="image" 
-            placeholder="Coloque a url da foto da receita pronta"
-            value="{{item.image}}"
-        >-->
         <div class="photos-upload">
             <div>
                 <input 
@@ -30,8 +23,19 @@
                     onchange="PhotosUpload.handleFileInput(event)"
                 >
                 <label for="file2" class="lblUpload">+</label>
+                <p>Selecione até 5 fotos</p>
             </div>
-            <div id="photos-preview"></div>
+            <div id="photos-preview">
+            {%if files %}
+                {% for image in files%}
+                    <div class="photo" id="{{image.id}}">
+                        <img src="{{image.src}}" alt="{{image.name}}">
+                        <i class="material-icons" onclick="PhotosUpload.removeOldPhoto(event)">close</i>
+                    </div>
+                {% endfor %}
+                <input type="hidden" name="removed_files">
+            {% endif %}
+            </div>
         </div>
         
     <h4>Ingredientes</h4> 

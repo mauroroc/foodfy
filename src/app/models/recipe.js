@@ -1,8 +1,9 @@
 const db = require('../../config/db');
+const Files = require('./file');
  
 module.exports = {
-    all(callback) {
-        db.query(`SELECT 
+    all() {
+        return db.query(`SELECT 
             recipes.id,
             recipes.image,
             recipes.title,
@@ -14,13 +15,9 @@ module.exports = {
             chefs.name as namechef
             FROM recipes
             LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
-            ORDER BY recipes.title`, 
-            (err, results) => {
-                if(err) throw `Erro no Banco de Dados ${err}`;
-            callback(results.rows);
-        })
+            ORDER BY recipes.title`);
     },
-    create(data, callback) {
+    create(data) {
         const query = `
             INSERT INTO recipes (
                  image,
@@ -47,15 +44,12 @@ module.exports = {
             //date(Date.now()).iso
         ]
 
-        db.query(query, values, (err, results) => {
-            if(err) throw `Erro no Banco de Dados ${err}`;
-            callback(results.rows[0]);
-        });
+        return db.query(query, values);
     },
-    find (id, callback) {
+    find (id) {
         const _id = parseInt(id,10);
         if (Number.isInteger(_id)) {
-            db.query(`
+            return db.query(`
             SELECT 
                 recipes.id,
                 recipes.image,
@@ -70,12 +64,9 @@ module.exports = {
                 LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
                 WHERE recipes.id = $1
                 ORDER BY recipes.title
-            `, [id], (err, results) => {
-                if(err) throw `Erro no Banco de Dados ${err}`;
-                callback(results.rows[0]);
-            });
+            `, [id]);
         } else {
-            callback();
+            return false;
         }
     },
     findBy(params) {
@@ -117,7 +108,7 @@ module.exports = {
                     callback(results.rows);
             });
     },
-    update(data, callback) {
+    update(data) {
         const query = `
             UPDATE recipes 
             SET
@@ -140,21 +131,21 @@ module.exports = {
             data.id
         ]
 
-        db.query(query, values, (err, results) => {
-            if(err) throw `Erro no Banco de Dados ${err}`;
-            callback();
-        });
+        return db.query(query, values);
     },
-    delete(id, callback) {
-        db.query(`DELETE FROM recipes WHERE id = $1`, [id], (err, results) => {
-            if(err) throw `Erro no Banco de Dados ${err}`;
-            callback();
-        });
+    async delete(id) {
+        const results = await this.files(id);
+        if (results.rows) {
+             results.rows.forEach(async element => {
+                await Files.delete(element.id);
+            });
+        }
+        return db.query(`DELETE FROM recipes WHERE id = $1`, [id]);
     },
-    findAllChef (idChef, callback) {
+    findAllChef (idChef) {
         const _id = parseInt(idChef,10);
         if (Number.isInteger(_id)) {
-            db.query(`
+            return db.query(`
             SELECT 
                 id,
                 image,
@@ -165,18 +156,20 @@ module.exports = {
                 chef_id,
                 created_at 
             FROM recipes 
-            WHERE chef_id = $1`, [_id], (err, results) => {
-                if(err) throw `Erro no Banco de Dados ${err}`;
-                callback(results.rows);
-            });
+            WHERE chef_id = $1`, [_id]);
         } else {
-            callback();
+            return false;
         }
     },
-    chefsSelectOptions(callback) {
-        db.query(`SELECT name, id FROM chefs`, (err, results) => {
-            if(err) throw `Erro no Banco de Dados ${err}`;
-                callback(results.rows);
-        })
+    chefsSelectOptions() {
+        return db.query(`SELECT name, id FROM chefs`);
+    },
+    files(id) {
+        const query = `
+            SELECT files.id, files.name, files.path
+            FROM files 
+            LEFT JOIN recipe_files ON (files.id = recipe_files.file_id)
+            WHERE recipe_files.recipe_id = $1`;
+        return db.query(query, [id]);
     }
 }
