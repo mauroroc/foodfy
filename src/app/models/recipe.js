@@ -5,7 +5,6 @@ module.exports = {
     all() {
         return db.query(`SELECT 
             recipes.id,
-            recipes.image,
             recipes.title,
             recipes.ingredients,
             recipes.preparation,
@@ -15,33 +14,28 @@ module.exports = {
             chefs.name as namechef
             FROM recipes
             LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
-            ORDER BY recipes.title`);
+            ORDER BY recipes.created_at DESC`);
     },
     create(data) {
         const query = `
             INSERT INTO recipes (
-                 image,
                  title,
                  ingredients,
                  preparation,
                  information,
-                 chef_id,
-                 created_at 
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7)
+                 chef_id
+            ) VALUES ($1, $2, $3, $4, $5, $6)
             RETURNING id
         `;
 
         //transformar vetor em string separado por virgula
 
         const values = [
-            data.image,
             data.title,
             data.ingredients.toString(),
             data.preparation.toString(),
             data.information,
-            data.author,         
-            '2020-01-01'
-            //date(Date.now()).iso
+            data.author
         ]
 
         return db.query(query, values);
@@ -52,7 +46,6 @@ module.exports = {
             return db.query(`
             SELECT 
                 recipes.id,
-                recipes.image,
                 recipes.title,
                 recipes.ingredients,
                 recipes.preparation,
@@ -69,9 +62,7 @@ module.exports = {
             return false;
         }
     },
-    findBy(params) {
-        const { filter, limit, offset, callback } = params;
-
+    findBy(filter, limit, offset) {
         let query = "",
             filterQuery = "",
             totalQuery = `(SELECT count(*) FROM recipes ) as total`
@@ -89,7 +80,6 @@ module.exports = {
 
         query = `SELECT 
             recipes.id,
-            recipes.image,
             recipes.title,
             recipes.ingredients,
             recipes.preparation,
@@ -101,28 +91,24 @@ module.exports = {
             FROM recipes
             LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
             ${filterQuery}
-            LIMIT $1 OFFSET $2 `;
-            console.log(query, limit, offset);
-            db.query(query, [limit, offset], (err, results) => {
-                if(err) throw `Erro no Banco de Dados ${err}`
-                    callback(results.rows);
-            });
+            ORDER BY recipes.updated_at DESC
+            LIMIT $1 OFFSET $2 
+        `;
+            return db.query(query, [limit, offset]);
     },
     update(data) {
         const query = `
             UPDATE recipes 
             SET
-                image = ($1),
-                title = ($2),
-                ingredients = ($3),
-                preparation = ($4),
-                information = ($5),
-                chef_id = ($6)
-            WHERE id = ($7)
+                title = ($1),
+                ingredients = ($2),
+                preparation = ($3),
+                information = ($4),
+                chef_id = ($5)
+            WHERE id = ($6)
         `;
 
         const values = [
-            data.image,
             data.title,
             data.ingredients,
             data.preparation,
@@ -148,7 +134,6 @@ module.exports = {
             return db.query(`
             SELECT 
                 id,
-                image,
                 title,
                 ingredients,
                 preparation,

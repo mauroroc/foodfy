@@ -12,18 +12,20 @@
         </div>
     </div>
 
-    <h2 class="cards-title">Mais acessadas</h2>
+    <h2 class="cards-title">Últimas Cadastradas</h2>
 
     <section class="cards">
     {% for item in items %}
         <div class="card_item">
-            <img src="aaa" alt="{{item.title}}">
-            <h4>
-                {{item.title}}
-            </h4>
-            <p>
-                {{item.namechef}}
-            </p>
+            <a href="/receita/{{item.id}}">
+                <img src="{{item.src}}" alt="{{item.title}}">
+                <h4>
+                    {{item.title}}
+                </h4>
+                <p>
+                    {{item.namechef}}
+                </p>
+            </a>
         </div>
     {% endfor %}
     </section>

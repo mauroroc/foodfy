@@ -12,7 +12,6 @@ module.exports = {
             avatar = await File.list(item.file_id);
             if (avatar.rowCount > 0) {
                 item.avatar = avatar.rows[0].name;
-                console.log(item.avatar);
             }
         }   
         return res.render("admin/chefs_listagem", { items });
@@ -69,15 +68,19 @@ module.exports = {
 
         if (req.files.length != 0) {
             const fileId = await File.create(req.files[0]);
-            console.log(fileId);
             req.body.file_id = fileId;
         }
         await Chef.update(req.body);
 
         return res.redirect(`/admin/chefs/${req.body.id}`);
     },
-    async delete(req, res) { 
-        await Chef.delete(req.body.idDel)
+    async delete(req, res) {
+        const id = req.body.idDel;
+        const results = await Chef.hasRecipe(id);
+        if (results.rowCount > 0) {
+            return res.send("Esse chefe possui receitas e não pode ser deletado");
+        }
+        await Chef.delete(id)
         return res.redirect(`/admin/chefs`);
     }
 }

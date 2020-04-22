@@ -14,17 +14,14 @@ module.exports = {
         const query = `
             INSERT INTO chefs (
                 name,
-                file_id,
-                created_at
-            ) VALUES ($1, $2, $3)
+                file_id
+            ) VALUES ($1, $2)
             RETURNING id
         `;
 
         const values = [
             data.name,
-            data.avatar,
-            '2020-01-01'
-            //date(Date.now()).iso
+            data.avatar
         ]
 
         return db.query(query, values);
@@ -57,5 +54,8 @@ module.exports = {
     },
     delete(id) {
         return db.query(`DELETE FROM chefs WHERE id = $1`, [id]);
+    },
+    hasRecipe(id) {
+        return db.query(`SELECT * FROM recipes WHERE chef_id = $1`, [id]);
     }
 }

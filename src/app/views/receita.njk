@@ -17,7 +17,15 @@
 </script>
 
      <section class="receipt">
-            <img src="{{item.image}}" alt="{{item.title}}">
+            <img id="mainPhoto" src="{{files[0].src}}" alt="{{files[0].name}}">
+            <div class="gallery">
+                <div><!-- Preview das Imagens --></div>
+                {% for file in files %}
+                    <div class="imgGallery" id="{{file.id}}" onclick="changePhoto(event)">
+                        <img src="{{file.src}}" alt="{{file.name}}">
+                    </div>
+                {% endfor %}
+            </div>
              <h2>
                 {{item.title}}
             </h2>
