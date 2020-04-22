@@ -10,21 +10,25 @@
             <input 
             type="text" 
             name="avatar" 
+            id = "url"
             value="{{item.avatar}}"
             >
+            <input type="hidden" name="file_id" value="{{item.file_id}}">
         {% endif %}
-        <div class="photos-upload">
+        <div id="photos-preview">
+        
+        </div>
+        <div class="photos-upload-chef">
             <input 
                 id="file1"
                 type="file" 
-                name="avatar"
+                name="files"
                 accept="image/*"
                 class="boxUploadChef"
+                onchange="PhotosUpload.handleFileInputChef(event)"
             >
             <label for="file1" class="lblUpload2">Enviar Avatar</label>
-        <div class="photos-preview">
         
-        </div>
     <input type="hidden" name="id" value="{{item.id}}">
 
     

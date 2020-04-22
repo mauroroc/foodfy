@@ -8,6 +8,10 @@ for (item of menuItems) {
     }
 }
 
+function changePhoto(event) {
+    document.querySelector('#mainPhoto').src = event.target.src;
+};
+
 //Paginação
 function paginate(selectedPage, totalPages ) {
     let pages = [];

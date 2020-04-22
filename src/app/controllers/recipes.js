@@ -3,13 +3,13 @@ const Recipe = require('../models/recipe');
 const Chef = require('../models/chef');
 
 module.exports = {
-    index(req, res) 
+    async index(req, res) 
     { 
-        Recipe.all((items)=> {
-            return res.render("home", { items });
-        }); 
+        const results = await Recipe.all(); 
+        const items = results.rows;
+        return res.render("home", { items });
     },
-    list(req, res) 
+    async list(req, res) 
     { 
         let { filter, page, limit } = req.query;
 
@@ -32,28 +32,28 @@ module.exports = {
         }
 
         if (filter) {
-            Recipe.findBy(params); 
+            await Recipe.findBy(params); 
         } else {
-            Recipe.all((items)=> {
-                return res.render("receitas", { items });
-            }); 
+            const results = await Recipe.all();
+            const items = results.rows;
+            return res.render("receitas", { items });
         }
         
     },
-    chefs(req, res) 
+    async chefs(req, res) 
     { 
-        Chef.all((items)=> {
-            return res.render("chefs", { items });
-        });  
+        const result = await Chef.all();
+        const items = results.rows;
+        return res.render("chefs", { items });
     },
-    show(req, res) {
-        Recipe.find(req.params.id, (recipe) => {
-            if(!recipe) {
-                return res.send("Receita não encontrado");
-            }
-            recipe.ingredients = recipe.ingredients.split(",");
-            recipe.preparation = recipe.preparation.split(",");
-            return res.render("receita", { item: recipe });
-        })
+    async show(req, res) {
+        const results = await Recipe.find(req.params.id);
+        const recipe = results.rows[0];
+        if(!recipe) {
+            return res.send("Receita não encontrado");
+        }
+        recipe.ingredients = recipe.ingredients.split(",");
+        recipe.preparation = recipe.preparation.split(",");
+        return res.render("receita", { item: recipe });
     }
 }

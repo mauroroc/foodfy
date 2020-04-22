@@ -1,23 +1,20 @@
 const db = require('../../config/db');
 
 module.exports = {
-    all(callback) {
-        db.query(`
-            SELECT chefs.id, chefs.name, chefs.avatar_url, chefs.created_at, count(recipes) as total_recipes
+    all() {
+        return db.query(`
+            SELECT chefs.id, chefs.name, chefs.file_id, chefs.created_at, count(recipes) as total_recipes
             FROM chefs
             LEFT JOIN recipes ON (chefs.id = recipes.chef_id)
             GROUP BY chefs.id
             ORDER BY chefs.name
-            `, (err, results) => {
-                if(err) throw `Erro no Banco de Dados ${err}`;
-            callback(results.rows);
-        })
+            `);
     },
-    create(data, callback) {
+    create(data) {
         const query = `
             INSERT INTO chefs (
                 name,
-                avatar_url,
+                file_id,
                 created_at
             ) VALUES ($1, $2, $3)
             RETURNING id
@@ -30,44 +27,35 @@ module.exports = {
             //date(Date.now()).iso
         ]
 
-        db.query(query, values, (err, results) => {
-            if(err) throw `Erro no Banco de Dados ${err}`;
-            callback(results.rows[0]);
-        });
+        return db.query(query, values);
     },
-    find (id, callback) {
-        db.query(`
-        SELECT id, name, avatar_url as avatar, created_at 
-        FROM chefs 
-        WHERE id = $1`, [id], (err, results) => {
-            if(err) throw `Erro no Banco de Dados ${err}`;
-            callback(results.rows[0]);
-        });
+    find (id) {
+        return db.query(`
+        SELECT chefs.id, chefs.name, chefs.file_id, chefs.created_at, count(recipes) as total_recipes
+            FROM chefs
+            LEFT JOIN recipes ON (chefs.id = recipes.chef_id)
+            WHERE chefs.id = $1
+            GROUP BY chefs.id
+        `, [id]);
     },
-    update(data, callback) {
+    update(data) {
         const query = `
             UPDATE chefs 
             SET
                 name = ($1),
-                avatar_url = ($2)
+                file_id = ($2)
             WHERE id = ($3)
         `;
 
         const values = [
             data.name,
-            data.avatar,
+            data.file_id,
             data.id
         ]
 
-        db.query(query, values, (err, results) => {
-            if(err) throw `Erro no Banco de Dados ${err}`;
-            callback();
-        });
+        return db.query(query, values);
     },
-    delete(id, callback) {
-        db.query(`DELETE FROM chefs WHERE id = $1`, [id], (err, results) => {
-            if(err) throw `Erro no Banco de Dados ${err}`;
-            callback();
-        });
+    delete(id) {
+        return db.query(`DELETE FROM chefs WHERE id = $1`, [id]);
     }
 }

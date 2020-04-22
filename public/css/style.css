@@ -597,7 +597,7 @@ header {
     font-family: Helvetica-Bold;
     font-size: 16px;
     color: #FFFFFF;
-    text-align: right;
+    text-align: center;
     cursor: pointer;
     display: inline-block;
     padding: 1rem 50px;
@@ -611,6 +611,11 @@ header {
     width: 100%;
     margin: 8px 0;
     text-align: center;
+}
+
+.form-receipt .photos-upload-chef {
+    width: 100%;
+    margin: 8px 0;
 }
 
 .form-receipt #photos-preview {
@@ -651,5 +656,29 @@ header {
 }
 
 #photos-preview .photo:hover i {
+    opacity: 1;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: 2.8fr 0.2fr 0.2fr 0.2fr 0.2fr 0.2fr 0.2fr;
+    grid-gap: 8px;
+    width: 100%;
+    margin: 8px 0;
+    
+}
+
+.gallery img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border: 1px solid #DDDDDD;
+    border-radius: 3.5px; 
+    cursor: pointer;
+    transition: opacity 200ms;
+    opacity: 0.5;
+}
+
+.gallery img:hover {
     opacity: 1;
 }

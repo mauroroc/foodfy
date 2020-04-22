@@ -25,13 +25,17 @@ module.exports = {
     async delete(id) {
         try {
             const result = await db.query(`SELECT * FROM files WHERE id = $1`, [id]);
-            const file = result.rows[0];
-            console.log(file.path);
-            fs.unlinkSync(file.path);
+            if(result.rowCount > 0) {
+                const file = result.rows[0];
+                fs.unlinkSync(file.path);
+            }
         }catch(err) {
             console.error(err);
         }   
         await db.query(`DELETE FROM recipe_files WHERE file_id = $1`, [id]);   
-        return db.query(`DELETE FROM files WHERE id = $1`, [id]);
+        return await db.query(`DELETE FROM files WHERE id = $1`, [id]);
+    },
+    list(id) {
+        return db.query(`SELECT * FROM files WHERE id = $1`, [id]);
     }
 }
