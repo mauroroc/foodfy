@@ -6,9 +6,11 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
         <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/messages.css">
         <script src="/js/scripts.js"></script>
     </head>
     <body>
+        {% include "admin/mensagens.njk" %} 
         <header class="adm_header">
             <div class="adm_marca">
                 <a href="/admin/recipes"><img src="/img/adm-logo.png" alt="Foodfy"></a>
@@ -16,6 +18,7 @@
             <div class="adm_links">
                 <a href="/admin/recipes">RECEITAS</a>
                 <a href="/admin/chefs">CHEFS</a>
+                <a href="/admin/users">USUÁRIOS</a>
             </div>
         </header>
 

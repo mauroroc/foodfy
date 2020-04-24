@@ -4,6 +4,9 @@
 (help) d- Na administração, está dando erro quando adicionar um ingrediente na tela de editar
 
 --------- Falta colocar o recurso de menu ativo no site e na adm
+--------- Aplicar validação do e-mail
+--------- Aplicar tratamento em todas as mensagens de erro
+--------- Estilizar a mensagem de erro no padrão do projeto
 
 DESAFIO 9 - SISTEMA DE LOGIN
 Nesse desafio você irá implementar os conceitos de cadastro e sessão de usuários aprendidos nos módulos 9 e 10. Você deve criar a parte de autenticação de usuários no Foodfy, onde somente os usuários cadastrados, poderão ter acesso à parte administrativa do sistema.
@@ -19,31 +22,10 @@ Nesse desafio você irá implementar os conceitos de cadastro e sessão de usuá
     b- Editar ou deletar outros usuários
     c- Criar, editar ou deletar chefs
     d- Deletar sua própria conta.
-4- As listagem de receitas e chefs continuam acessíveis a todos, tanto para usuários do sistema como para visitantes do site. (criar uma tela de acesso aberto para ver os chefs do Foodfy)
 5- A partir disso, cuidado com os botões de acesso que existem no site e na área administrativa, bem como com as rotas do site. Crie uma estrutura de proteção para impedir o acesso a usuários não autenticados.
 6- Crie uma estrutura de proteção para impedir que os usuários que estão autenticados**, mas não são administradores**, não tenham permissão de acesso a certas rotas, conforme as instruções acima.
 7- Crie uma estratégia que quando o administrador criar um usuário novo, o sistema irá criar uma senha aleatória e enviar por email ao usuário criado. DICA*: Use a estratégia de criação de TOKEN que você viu nas aulas*.
-8- Use a estrutura de rotas que você aprendeu nas aulas, para criar as rotas de entrar e sair do sistema (login/logout); solicitação de recuperação de senha; gerenciamento de usuários.
-9- Coloque as rotas de perfis de usuário e gerenciamento de usuários da seguinte forma:
-    // Rotas de perfil de um usuário logado
-    routes.get('/admin/profile', ProfileController.index) // Mostrar o formulário com dados do usuário logado
-    routes.put('/admin/profile', ProfileController.put)// Editar o usuário logado
-    // Rotas que o administrador irá acessar para gerenciar usuários
-    routes.get('/admin/users', UserController.list) //Mostrar a lista de usuários cadastrados
-    routes.post('/admin/users', UserController.post) //Cadastrar um usuário
-    routes.put('/admin/users', UserController.put) // Editar um usuário
-    routes.delete('/admin/users', UserController.delete) // Deletar um usuário
-10- Crie uma tabela de nome users com os seguintes campos:
-    id SERIAL PRIMARY KEY
-    name TEXT NOT NULL
-    email TEXT UNIQUE NOT NULL
-    password TEXT NOT NULL
-    reset_token TEXT
-    reset_token_expires TEXT
-    is_admin BOOLEAN DEFAULT false
-    created_at TIMESTAMP DEFAULT(now())
-    updated_at TIMESTAMP DEFAULT(now())
-11- ATENÇÃO: Você vai precisar criar relacionamentos entre usuários e receitas para cumprir a regra onde o usuário poderá ver a lista de receitas criadas por ele mesmo e somente ele poderá deletar uma receita criada por ele. Portanto, crie uma chave estrangeira foreign key de nome user_id na tabela de receitas, apontando para o id do usuário.
+
 12 - Sessão de Usuário - Para usar a biblioteca express-session que trabalha com sessão e utiliza a configuração pg_simple; você vai precisar da tabela abaixo.
     CREATE TABLE "session" (
     "sid" varchar NOT NULL COLLATE "default",

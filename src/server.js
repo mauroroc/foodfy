@@ -1,6 +1,11 @@
 const express = require('express');
 const nunjucks = require('nunjucks');
-const routes = require("./routes");
+
+const recipes = require("./app/routes/recipes");
+const adminRecipes = require("./app/routes/admin-recipes");
+const adminChefs = require("./app/routes/admin-chefs");
+const adminUsers = require("./app/routes/admin-users");
+
 const methodOverride = require('method-override');
 
 const server = express();
@@ -8,8 +13,11 @@ const server = express();
 server.use(express.urlencoded({ extended: true }))
 server.use(express.static('public'));
 server.use(methodOverride('_method'));
-server.use(routes);
 
+server.use(recipes);
+server.use(adminRecipes);
+server.use(adminChefs);
+server.use(adminUsers);
 
 server.set("view engine", "njk");
 
