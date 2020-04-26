@@ -6,9 +6,9 @@
                 <h3>Atualizar Usuário</h3>
             </div>
             <div class="detail-top-button">
-            <form method="POST" action="/admin/users?_method=DELETE">
+            <form id="form-delete" method="POST" action="/admin/users?_method=DELETE">
                 <input type="hidden" name="idDel" value="{{item.id}}">
-                <button class="btnDelete">Deletar</a>                    
+                <button type="submit" class="btnDelete">Deletar</a>                    
             </form>
             <form method="POST" action="/admin/users?_method=PUT">
                 <button class="btnSave">Salvar</a>            
@@ -39,4 +39,14 @@
         </section>   
     </form>   
  
+    <script>
+        const formDelete = document.querySelector("#form-delete");
+        formDelete.addEventListener("submit", (event) => {
+            const confirmation = confirm("Tem certeza que deseja excluir esse usuário?");
+            if(!confirmation) {
+                event.preventDefault();
+            }
+        })
+    </script>
+
 {% endblock %}

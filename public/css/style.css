@@ -275,7 +275,7 @@ header {
     margin: 0 auto;
     background: #111111;
     display: grid;
-    grid-template-columns: 0.5fr 1.5fr;
+    grid-template-columns: 0.5fr 1.5fr 1fr;
 }
 .adm_marca {
     padding: 30px;
@@ -293,6 +293,13 @@ header {
     text-align: left;
     text-decoration: none;
     padding: 20px;
+}
+
+.logado {
+    font-family: Roboto-Regular;
+    font-size: 15px;
+    color: #FFFFFF;
+    padding: 30px;
 }
 
 .adm_cards {
@@ -765,3 +772,63 @@ header {
     line-height: 32px;
     text-decoration: none;
 }
+
+.login-form {
+    max-width: 600px;
+    margin: 0 auto;
+    color: #111111;
+}
+
+.login-form-title {
+    font-family: Roboto-Bold;
+    font-size: 24px;
+    color: #111111;
+    text-align: center;
+    margin-top: 100px;
+}
+
+.login-form-input h4 {
+    font-family: Roboto-Bold;
+    font-size: 16px;
+    color: #111111;
+    margin-top: 30px;
+}
+
+.login-form-input input {
+    font-family: Roboto-Bold;
+    font-size: 16px;
+    color: #999999;
+    background: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 0 4px 0 4px 0 4px 0;
+    width: 100%;
+    height: 50px;
+    margin-top: 5px;
+}
+
+.login-form-button {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 30px;
+}
+
+.login-form-button a {
+    font-family: Roboto-Bold;
+    font-size: 16px;
+    color: #969696;
+    text-decoration: none;
+}
+
+.login-form-button-right {
+    text-align: right;
+}
+
+.login-form-button-right button {
+    width: 200px;
+}
+
+.login-marca {
+    text-align: center;
+    margin-top: 20px;
+}
+

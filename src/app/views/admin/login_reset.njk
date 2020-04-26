@@ -1,0 +1,37 @@
+{% extends "admin/adm_login.njk" %}
+
+{% block content %}
+    <form method="POST" action="/reset" >
+        <div class="login-form">
+            <div class="login-form-title">
+                <h3>Nova Senha</h3>
+            </div>
+            <div class="login-form-input">
+                <h4>Email</h4> 
+                <input 
+                    type="text" 
+                    name="email" 
+                    placeholder="Digite seu email"
+                >
+                <h4>Nova Senha</h4> 
+                <input 
+                    type="text" 
+                    name="senha" 
+                    placeholder="Digite a sua nova senha"
+                >
+                <h4>Repetir Senha</h4> 
+                <input 
+                    type="text" 
+                    name="repetesenha" 
+                    placeholder="Repita a nova senha"
+                >
+            </div>
+            <div class="login-form-button">
+                <div></div>
+                <div class="login-form-button-right">
+                    <button class="btnSave">Nova Senha</a>
+                </div>
+            </div>
+        </div> 
+    </form>   
+{% endblock %}

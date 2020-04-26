@@ -48,7 +48,10 @@ module.exports = {
         const id = req.body.idDel;
         const results = await User.hasRecipe(id);
         if (results.rowCount > 0) {
-            return res.send("Esse usuário possui receitas e não pode ser deletado");
+            const message = 'Esse usuário possui receitas e não pode ser deletado';
+            const results2 = await User.find(id);
+            const item = results2.rows[0];
+            return res.render("admin/users_edicao", {msg: message, tipo: "error", item});
         }
         await User.delete(id)
         return res.redirect('/admin/users');

@@ -1,0 +1,44 @@
+{% extends "admin/adm_layout.njk" %}
+
+{% block content %}
+    <form method="POST" action="/admin/profile?_method=PUT">
+        <div class="detail-top">
+            <div class="detail-top-title">
+                <h3>Bem Vindo {{item.name}}</h3>
+            </div>
+            <div class="detail-top-button">
+                <button class="btnSave">Salvar</a>
+            </div>
+        </div>
+        <section class="form-user">
+            <div>
+                <h4>Nome</h4> 
+                <input 
+                    type="text" 
+                    name="name" 
+                    placeholder="Digite o nome completo"
+                    value="{{item.name}}"
+                >  
+            </div>
+            <div>
+                <h4>Email</h4> 
+                <input 
+                    type="text" 
+                    name="email" 
+                    placeholder="Digite o email"
+                    value="{{item.email}}" 
+                >
+            </div>
+            <div>
+                <h4>Senha</h4> 
+                <input 
+                    type="password" 
+                    name="password"
+                    placeholder="Digite a senha"
+                >
+            </div>
+            <input type="hidden" name="id" value="{{item.id}}">
+        </section>   
+    </form>   
+ 
+{% endblock %}

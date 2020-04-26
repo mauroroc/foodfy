@@ -8,6 +8,10 @@ const SessionController = require("../controllers/session");
 routes.get('/login', SessionController.loginform);
 routes.post('/login', SessionController.login);
 routes.post('/logout', SessionController.logout);
+routes.get('/forgot', SessionController.forgot);
+routes.post('/forgot', SessionController.sendpasswd);
+routes.get('/reset', SessionController.resetform);
+routes.post('/reset', SessionController.reset);
 
 routes.get('/admin/profile', ProfileController.index) ;
 routes.put('/admin/profile', ProfileController.put);

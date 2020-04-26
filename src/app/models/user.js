@@ -39,10 +39,33 @@ module.exports = {
     },
     findOne (email) {
         return db.query(`
-            SELECT id, name, email, is_admin
+            SELECT id, name, email, password, is_admin
             FROM users
             WHERE email = $1`, [email]
         );
+    },
+    async updateprofile (data) {
+        let query = `UPDATE users SET name = $1, email = $2`;
+        let values = [];
+        if(data.password) {
+            query = query + ', password = $3 WHERE id = $4';
+            const passwordHash = await hash(data.password, 8);
+            values = [
+                data.name,
+                data.email,
+                passwordHash,
+                data.id
+            ]
+        }else{
+            query = query + 'WHERE id = $3';
+            values = [
+                data.name,
+                data.email,
+                data.id
+            ]
+        }
+
+        return db.query(query, values);
     },
     update (data) {
         const query = `
@@ -60,7 +83,6 @@ module.exports = {
             data.is_admin,
             data.id
         ]
-        console.log(query, values);
         return db.query(query, values);
     },
     delete(id) {
