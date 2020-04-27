@@ -12,7 +12,7 @@
     position: absolute;
     width: 20%;
     color: white;
-    top: 10px;
+    top: 100px;
     right: 300px;
     opacity: 1;
     animation: hidemessage 400ms 2s ease-out forwards;

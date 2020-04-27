@@ -17,6 +17,7 @@ module.exports = {
             }
             message = `Usuário logado com sucesso`;
             req.session.userId = item.id;
+            if(item.is_admin) req.session.isAdmin = true;
             res.render("admin/profile", { msg: message, tipo: 'success', item });
         } else {
             message = 'Usuário não encontrado';
@@ -24,7 +25,8 @@ module.exports = {
         }
     },
     logout (req, res) {
-
+        req.session.destroy();
+        return res.redirect("/login");
     },
     forgot (req, res) {
         res.render("admin/login_esqueceu");
