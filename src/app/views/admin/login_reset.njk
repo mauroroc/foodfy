@@ -12,16 +12,17 @@
                     type="text" 
                     name="email" 
                     placeholder="Digite seu email"
+                    value="{{email}}"
                 >
                 <h4>Nova Senha</h4> 
                 <input 
-                    type="text" 
+                    type="password" 
                     name="senha" 
                     placeholder="Digite a sua nova senha"
                 >
                 <h4>Repetir Senha</h4> 
                 <input 
-                    type="text" 
+                    type="password" 
                     name="repetesenha" 
                     placeholder="Repita a nova senha"
                 >
@@ -33,5 +34,6 @@
                 </div>
             </div>
         </div> 
+        <input type="hidden" name="token" value="{{token}}">
     </form>   
 {% endblock %}

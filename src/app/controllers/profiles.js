@@ -1,7 +1,9 @@
 const User = require('../models/user');
 module.exports = {
-    index (req, res) {
-        res.render("admin/profile");
+    async index (req, res) {
+        const results = await User.find(req.session.userId);
+        const item = results.rows[0];
+        res.render("admin/profile", { item });
     },
     async put (req, res) {
         await User.updateprofile(req.body);

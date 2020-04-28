@@ -44,6 +44,13 @@ module.exports = {
             WHERE email = $1`, [email]
         );
     },
+    findToken (token) {
+        return db.query(`
+        SELECT id, name, email, reset_token, reset_token_expires
+        FROM users
+        WHERE reset_token = $1`, [token]
+        );
+    },
     async updateprofile (data) {
         let query = `UPDATE users SET name = $1, email = $2`;
         let values = [];
@@ -85,10 +92,29 @@ module.exports = {
         ]
         return db.query(query, values);
     },
+    updatePassword(id, senha) {
+        return db.query(`UPDATE users SET reset_token='', reset_token_expires='', password = $1 WHERE id = $2`, [senha, id]);
+    },
     delete(id) {
         return db.query(`DELETE FROM users WHERE id = $1`, [id]);
     },
     hasRecipe(id) {
         return db.query(`SELECT * FROM recipes WHERE user_id = $1`, [id]);
+    },
+    createToken(id, token) {
+        const query = `
+            UPDATE users 
+            SET 
+                reset_token = $1,
+                reset_token_expires = $2
+            WHERE id = $3
+        `;
+
+        const values = [
+            token.reset_token,
+            token.reset_token_expires,
+            id
+        ]
+        return db.query(query, values);
     }
 }
