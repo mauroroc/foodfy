@@ -54,6 +54,7 @@ module.exports = {
                 recipes.information,
                 recipes.chef_id,
                 recipes.created_at,
+                recipes.user_id,
                 chefs.name as namechef
                 FROM recipes
                 LEFT JOIN chefs ON (chefs.id = recipes.chef_id)

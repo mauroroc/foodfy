@@ -4,7 +4,7 @@ function onlyUsers(req, res, next) {
 }
 
 function onlyAdmin(req, res, next) {
-    if (!req.session.userId || !req.session.isAdmin) return res.redirect('/login');
+    if (!req.session.userId || !req.session.isAdmin) return res.render("admin/permissao", { message: 'Você não tem permissão para acessar essa área'});
     next();
 }
 

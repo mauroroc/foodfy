@@ -6,15 +6,15 @@
 --------- Falta colocar o recurso de menu ativo no site e na adm
 --------- Aplicar validação do e-mail
 --------- Aplicar tratamento em todas as mensagens de erro
---------- Estilizar a mensagem de erro no padrão do projeto
+--------- Estilizar a mensagem de erro no padrão do projeto (falta usuarios)
+--------- Criar um redirecionamento da rota admin para login
+--------- Aplicar o delete cascade nas fotos de uma receita e nas fotos de um chef
+--------- Está salvando receita sem nenhuma foto
+--------- Rotina editar de receita está com erro (mudar no banco para salvar como vetor)
+--------- Erro sem tratamento quando cria chef sem foto
 
 2- O usuário que tiver o valor de true no campo is_admin da tabela users será considerado o administrador do sistema e:
-    a - Poderá criar/editar/deletar qualquer usuário, receita e chef
-    b- Somente este poderá cadastrar/atualizar/deletar os chefs
     d- Não poderá deletar sua própria conta
-3- Um usuário comum não pode
-    a- Editar ou deletar as receitas de outro usuário
-    c- Criar, editar ou deletar chefs
 7- Crie uma estratégia que quando o administrador criar um usuário novo, o sistema irá criar uma senha aleatória e enviar por email ao usuário criado. DICA*: Use a estratégia de criação de TOKEN que você viu nas aulas*.
 14- Quando utilizar os alertas?
     a- Na criação, atualização ou remoção uma receita, chef, conta de usuário, bem como login e logout.

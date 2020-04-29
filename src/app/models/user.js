@@ -116,5 +116,12 @@ module.exports = {
             id
         ]
         return db.query(query, values);
+    },
+    isAdmin(id) {
+        return db.query(`
+            SELECT is_admin
+            FROM users
+            WHERE id = $1`, [id]
+        );
     }
 }
