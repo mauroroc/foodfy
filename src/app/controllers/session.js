@@ -8,23 +8,29 @@ module.exports = {
         res.render("admin/login");
     },
     async login (req, res) {
-        let message = '';
-        const results = await User.findOne(req.body.email);
-        const item = results.rows[0];
-        if (results.rowCount > 0) {
-            const passed = await compare(req.body.password, item.password);
-            if(!passed) {
-                message = 'Senha incorreta';
-                return res.render("admin/login", { msg: message, tipo: 'error' });
-            }
-            message = `Usuário logado com sucesso`;
-            req.session.userId = item.id;
-            if(item.is_admin) req.session.isAdmin = true;
-            res.render("admin/profile", { msg: message, tipo: 'success', item });
-        } else {
-            message = 'Usuário não encontrado';
-            res.render("admin/login", { msg: message, tipo: 'error' });
+        try {
+            let message = '';
+            const results = await User.findOne(req.body.email);
+            const item = results.rows[0];
+            if (results.rowCount > 0) {
+                const passed = await compare(req.body.password, item.password);
+                if(!passed) {
+                    message = 'Senha incorreta';
+                    return res.render("admin/login", { msg: message, tipo: 'error' });
+                }
+                message = `Usuário logado com sucesso`;
+                req.session.userId = item.id;
+                if(item.is_admin) req.session.isAdmin = true;
+                res.render("admin/profile", { msg: message, tipo: 'success', item });
+            } else {
+                message = 'Usuário não encontrado';
+                res.render("admin/login", { msg: message, tipo: 'error' });
+            } 
+        } catch (error) {
+            const message = 'Houve erro ao carregar o profile'
+            return res.render("admin/permissao", { msg: message } );
         }
+        
     },
     logout (req, res) {
         req.session.destroy();
@@ -34,40 +40,42 @@ module.exports = {
         res.render("admin/login_esqueceu");
     },
     async sendpasswd (req, res) {
-        const results = await User.findOne(req.body.email);
-        const item = results.rows[0];
-        if (!item) {
-            const message = 'Não existe usuário com esse e-mail no sistema';
-            return res.render("admin/login_esqueceu", { msg: message, tipo : 'error'});
-        }
-        //token para o usuário
-        const token = crypto.randomBytes(20).toString("hex");
-
-        //data exp para o token
-        let now = new Date();
-        now = now.setHours(now.getHours() + 1);
-        await User.createToken(item.id, {
-            reset_token: token,
-            reset_token_expires: now
-        });
-        
-        //enviar email com link de recuperação de senha
-        const link = 'http://localhost:3000/reset?token=' + token;
-        const html = `
-            <h2>Esqueci minha senha</h2>
-            <p>Clique no link abaixo para criar uma nova senha:</p>
-            <a href="${link}" target="_blank">Gerar token para nova senha</a>
-        `
-        await mailer.sendMail({
-            to: item.email,
-            from: 'no-reply@mauror.com.br',
-            subject: 'Recuperação de senha',
-            html: html
-        });
-
-        //avisar o usuário que o e-mail foi enviado
-        const message = 'Nova senha enviada para o e-mail cadastrado';
-        res.render("admin/login_esqueceu", { msg: message, tipo : 'success'});
+        try {
+            const results = await User.findOne(req.body.email);
+            const item = results.rows[0];
+            if (!item) {
+                const message = 'Não existe usuário com esse e-mail no sistema';
+                return res.render("admin/login_esqueceu", { msg: message, tipo : 'error'});
+            }
+            //token para o usuário
+            const token = crypto.randomBytes(20).toString("hex");
+            //data exp para o token
+            let now = new Date();
+            now = now.setHours(now.getHours() + 1);
+            await User.createToken(item.id, {
+                reset_token: token,
+                reset_token_expires: now
+            });            
+            //enviar email com link de recuperação de senha
+            const link = 'http://localhost:3000/reset?token=' + token;
+            const html = `
+                <h2>Esqueci minha senha</h2>
+                <p>Clique no link abaixo para criar uma nova senha:</p>
+                <a href="${link}" target="_blank">Gerar token para nova senha</a>
+            `
+            await mailer.sendMail({
+                to: item.email,
+                from: 'no-reply@mauror.com.br',
+                subject: 'Recuperação de senha',
+                html: html
+            });
+            //avisar o usuário que o e-mail foi enviado
+            const message = 'Nova senha enviada para o e-mail cadastrado';
+            res.render("admin/login_esqueceu", { msg: message, tipo : 'success'});
+        } catch (error) {
+            const message = 'Houve erro ao carregar o profile'
+            return res.render("admin/permissao", { msg: message } );
+        }      
     },
     async resetform (req, res) {
         const token = req.query.token;

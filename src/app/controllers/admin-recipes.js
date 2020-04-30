@@ -171,8 +171,16 @@ module.exports = {
         }*/  
     },
     async delete(req, res) { 
-        await Recipe.delete(req.body.idDel);
-        return res.redirect(`/admin/recipes/`);
+        try {
+            await Recipe.delete(req.body.idDel);
+            const items = await listAll(req);
+            const message = 'Receita excluída com sucesso!';
+            return res.render("admin/listagem", { items, msg:message, tipo: 'success' }); 
+        } catch (error) {
+            const message = 'Houve erro na visualização dessa página'
+            return res.render("admin/permissao", { msg: message } );
+        }
+        
     }
 }
 

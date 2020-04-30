@@ -1,8 +1,8 @@
-//const { date } = require('../../lib/utils');
 const Chef = require('../models/chef');
 const Recipe = require('../models/recipe');
 const File = require('../models/file');
 
+//Função para listar todos os chefs
 async function listAll(){
     const results = await Chef.all();
     const items = results.rows;
