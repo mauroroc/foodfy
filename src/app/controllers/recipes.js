@@ -17,6 +17,7 @@ module.exports = {
             };
             return res.render("home", { items });
         } catch (error) {
+            console.log(error);
             const message = 'Houve erro ao processar essa página'
             return res.render("error", { msg: message } );
         }
@@ -31,7 +32,11 @@ module.exports = {
             let offset = limit * (page - 1);
             if (filter) {
                 const results = await Recipe.findBy(filter, limit, offset); 
-                const items = results.rows;
+                if(results.rowCount == 0) {
+                    const message = 'Não encontramos itens referente a sua busca.'
+                    return res.render("error", { msg: message } );
+                }
+                const items = results.rows;                
                 const params = {
                     filter,
                     page,
@@ -61,6 +66,7 @@ module.exports = {
                 return res.render("receitas", { items });
             }; 
         } catch (error) {
+            console.log(error);
             const message = 'Houve erro ao processar essa página'
             return res.render("error", { msg: message } );
         }
@@ -68,7 +74,7 @@ module.exports = {
     async chefs(req, res) 
     {
         try {
-            let results = await Chef.all();
+            let results = await Chef.allWithRecipes();
             const items = results.rows;
             for(i of items) {
                 results = await File.list(i.file_id);
@@ -76,20 +82,19 @@ module.exports = {
             };
             return res.render("chefs", { items });
         } catch (error) {
+            console.log(error);
             const message = 'Houve erro ao processar essa página'
             return res.render("error", { msg: message } ); 
         }
     },
     async show(req, res) {
         try {
-            let results = await Recipe.find(req.params.id);
+            let results = await Recipe.findId(req.params.id);
             const recipe = results.rows[0];
             if(!recipe) {
                 const message = 'Receita não encontrada!'
                 return res.render("error", { msg: message } ); 
-            }
-            recipe.ingredients = recipe.ingredients.split(",");
-            recipe.preparation = recipe.preparation.split(",");         
+            }      
             results = await Recipe.files(recipe.id);
             const files = results.rows.map(file => ({
                 ...file,
@@ -97,6 +102,7 @@ module.exports = {
             }));
             return res.render("receita", { item: recipe, files });
         } catch (error) {
+            console.log(error);
             const message = 'Houve erro ao processar essa página'
             return res.render("error", { msg: message } ); 
         }  

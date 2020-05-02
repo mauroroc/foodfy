@@ -1,12 +1,11 @@
 const PhotosUpload = {
     input: "", 
-    uploadLimit: 4,
     files: [],
     handleFileInput(event) {
         const { files: fileList } = event.target;
         PhotosUpload.input = event.target;
         
-        if(PhotosUpload.hasLimit(event)) return;
+        if(PhotosUpload.hasLimit(event, 5)) return;
 
         Array.from(fileList).forEach(file => {
             PhotosUpload.files.push(file);
@@ -21,29 +20,28 @@ const PhotosUpload = {
         }); 
         
         PhotosUpload.input.files = PhotosUpload.getAllFiles();
-        //console.log(PhotosUpload.input.files);
-    },
-    handleFileInputChef(event) {
-        const { files: fileList } = event.target;
-        PhotosUpload.input = event.target;
-        const file = fileList[0];
-       
-        PhotosUpload.files.push(file);
-        const reader = new FileReader();
-        reader.onload = () => {
-            const image = new Image();
-            image.src = String(reader.result);
-            const div = PhotosUpload.getContainer(image);
-            document.querySelector('#photos-preview').appendChild(div);
-            document.querySelector('#url').remove();
-        }
-        reader.readAsDataURL(file);
-         
-        PhotosUpload.input.files = PhotosUpload.getAllFiles();
-        //console.log(PhotosUpload.input.files);
-    },
-    hasLimit(event) {
-        const { uploadLimit, input } = PhotosUpload;
+        },
+        handleFileInputChef(event) {
+            const { files: fileList } = event.target;
+            PhotosUpload.input = event.target;
+            if(PhotosUpload.hasLimit(event, 1)) return;
+            const file = fileList[0];
+        
+            PhotosUpload.files.push(file);
+            const reader = new FileReader();
+            reader.onload = () => {
+                const image = new Image();
+                image.src = String(reader.result);
+                const div = PhotosUpload.getContainer(image);
+                document.querySelector('#photos-preview').appendChild(div);
+                document.querySelector('#url').remove();
+            }
+            reader.readAsDataURL(file);
+            
+            PhotosUpload.input.files = PhotosUpload.getAllFiles();
+        },
+    hasLimit(event, uploadLimit) {
+        const { input } = PhotosUpload;
         const { files: fileList } = input;
 
         if (fileList.length > uploadLimit) {

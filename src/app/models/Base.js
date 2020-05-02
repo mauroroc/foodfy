@@ -23,13 +23,20 @@ const Base = {
     async create(fields) {
         try {
             let keys = [], values = [], ind = [];
-            Object.keys(fields).map((key, index, array) => {
+            Object.keys(fields).map((key) => {
                 keys.push(key);
-                values.push(fields[key]);
-                ind.push(`$${index+1}`)
+                if(Array.isArray(fields[key])) {
+                    for(i in fields[key]) {
+                        ind.push(`'${fields[key][i]}'`);
+                    }
+                    values.push(`ARRAY [${ind}]`);
+                    ind = [];
+                } else {
+                    values.push(`'${fields[key]}'`);
+                }               
             })
-            const query = `INSERT INTO ${this.table} (${keys.join(',')}) VALUES (${ind.join(',')}) RETURNING id`;
-            const results = await db.query(query, values);
+            const query = `INSERT INTO ${this.table} (${keys.join(',')}) VALUES (${values.join(',')}) RETURNING id`;
+            const results = await db.query(query);
             return results.rows[0].id; 
         } catch (error) {
             console.log(error);
@@ -37,15 +44,24 @@ const Base = {
     },
     update (fields, id) {
         try {
-            let update = []
+            let update = [];
+            let ind= [];
             Object.keys(fields).map( key => {
                 if (key != 'id') {
                     if(fields[key]==false || fields[key]==true) {
                         const line = `${key} = ${fields[key]}`;
                         update.push(line);
                     } else {
-                        const line = `${key} = '${fields[key]}'`;
-                        update.push(line);
+                        if(Array.isArray(fields[key])) {
+                            for(i in fields[key]) {
+                                ind.push(`'${fields[key][i]}'`);
+                            }
+                            update.push(`${key} = ARRAY [${ind}]`);
+                            ind = [];
+                        } else {
+                            const line = `${key} = '${fields[key]}'`;
+                            update.push(line);
+                        }
                     }
                 }
             })
@@ -56,7 +72,12 @@ const Base = {
         }
     },
     delete(id) {
-        return db.query(`DELETE FROM ${this.table} WHERE id = ${id}`);
+        try {
+            return db.query(`DELETE FROM ${this.table} WHERE id = ${id}`);
+        } catch (error) {
+            console.log(error);
+        }
+        
     }
 }
 

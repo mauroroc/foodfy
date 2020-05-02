@@ -69,6 +69,10 @@ module.exports = {
                     return res.render("admin/chefs_criacao", { item: req.body, msg: message, tipo: 'error'} );
                 }
             };
+            if(!req.files[0]) {
+                const message = 'É obrigatório selecionar uma foto'
+                return res.render("admin/chefs_criacao", { item: req.body, msg: message, tipo: 'error'} );
+            }
             const fileId = await File.create(req.files[0]);
             const data = { name: req.body.name, file_id: fileId }
             const results = await Chef.create(data);
@@ -106,17 +110,19 @@ module.exports = {
     async put(req, res) { 
         try {
             const data = { name: req.body.name }
+            let trocafoto = false;
+            let photo = 0;
             if (req.files.length != 0) {
                 //pega a foto atual
                 const results = await Chef.findId(req.body.id);
-                const photo = results.rows[0].file_id;
+                photo = results.rows[0].file_id;
                 //cadastra nova foto
                 const fileId = await File.create(req.files[0]);
                 data.file_id = fileId;
-                //apaga a foto antiga
-                await File.delete(photo);
+                trocafoto = true;
             }
             await Chef.update(data, req.body.id);
+            if (trocafoto) await File.delete(photo);
             const items = await listAll();
             const message = 'Cadastro de Chef atualizado com sucesso'
             return res.render("admin/chefs_listagem", {items, msg: message, tipo: 'success'});
@@ -129,17 +135,17 @@ module.exports = {
     async delete(req, res) {
         try {
             const id = req.body.idDel;
-            let results = await Chef.hasRecipe(id);
-            if (results.rowCount > 0) {
-                const message = 'Esse Chef possui receitas e não pode ser excluído';
-                const items = await listAll();
-                return res.render("admin/chefs_listagem", { items, msg: message, tipo: 'error'});
-            }
-            await Chef.delete(id)
+            const results = await Chef.findId(id);
+            photo = results.rows[0].file_id;
+            await Chef.delete(id);
+            //deletando a foto
+            await File.delete(photo);
+            //carregando itens para a página de listagem
             const items = await listAll();
             const message = 'Chef excluído com sucesso';
             return res.render("admin/chefs_listagem", { items, msg: message, tipo: 'success'});
         } catch (error) {
+            console.log(error)
             const message = 'Houve erro ao excluir esse Chef';
             return res.render("admin/chefs_listagem", { msg: message});
         }

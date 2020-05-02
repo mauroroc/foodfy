@@ -1,70 +1,9 @@
 const db = require('../../config/db');
-const Files = require('./File');
- 
+const Base = require('./Base');
+Base.init({ table: 'recipes'});
+
 module.exports = {
-    all() {
-        return db.query(`SELECT 
-            recipes.id,
-            recipes.title,
-            recipes.ingredients,
-            recipes.preparation,
-            recipes.information,
-            recipes.chef_id,
-            recipes.created_at,
-            chefs.name as namechef
-            FROM recipes
-            LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
-            ORDER BY recipes.created_at DESC`);
-    },
-    create(data) {
-        const query = `
-            INSERT INTO recipes (
-                 title,
-                 ingredients,
-                 preparation,
-                 information,
-                 chef_id,
-                 user_id
-            ) VALUES ($1, $2, $3, $4, $5, $6)
-            RETURNING id
-        `;
-
-        //transformar vetor em string separado por virgula
-
-        const values = [
-            data.title,
-            data.ingredients.toString(),
-            data.preparation.toString(),
-            data.information,
-            data.author,
-            data.user
-        ]
-
-        return db.query(query, values);
-    },
-    find (id) {
-        const _id = parseInt(id,10);
-        if (Number.isInteger(_id)) {
-            return db.query(`
-            SELECT 
-                recipes.id,
-                recipes.title,
-                recipes.ingredients,
-                recipes.preparation,
-                recipes.information,
-                recipes.chef_id,
-                recipes.created_at,
-                recipes.user_id,
-                chefs.name as namechef
-                FROM recipes
-                LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
-                WHERE recipes.id = $1
-                ORDER BY recipes.title
-            `, [id]);
-        } else {
-            return false;
-        }
-    },
+    ...Base,
     findBy(filter, limit, offset) {
         let query = "",
             filterQuery = "",
@@ -97,39 +36,9 @@ module.exports = {
             ORDER BY recipes.updated_at DESC
             LIMIT $1 OFFSET $2 
         `;
+            console.log(query);
+            console.log(limit, offset)
             return db.query(query, [limit, offset]);
-    },
-    update(data) {
-        const query = `
-            UPDATE recipes 
-            SET
-                title = ($1),
-                ingredients = ($2),
-                preparation = ($3),
-                information = ($4),
-                chef_id = ($5)
-            WHERE id = ($6)
-        `;
-
-        const values = [
-            data.title,
-            data.ingredients,
-            data.preparation,
-            data.information,
-            data.author,
-            data.id
-        ]
-
-        return db.query(query, values);
-    },
-    async delete(id) {
-        const results = await this.files(id);
-        if (results.rows) {
-             results.rows.forEach(async element => {
-                await Files.delete(element.id);
-            });
-        }
-        return db.query(`DELETE FROM recipes WHERE id = $1`, [id]);
     },
     findAllChef (idChef) {
         const _id = parseInt(idChef,10);

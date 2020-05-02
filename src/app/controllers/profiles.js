@@ -22,8 +22,9 @@ module.exports = {
                 data.password = await hash(password, 8);
             }
             await User.update(data, id);
+            data.id = id;
             const message = 'Dados do usuário alterados com sucesso';
-            res.render("admin/profile", { msg: message, tipo: "success"});
+            res.render("admin/profile", { msg: message, tipo: "success", item: data});
         } catch (error) {
             const message = 'Houve erro ao carregar o profile'
             return res.render("admin/erro", { msg: message } );

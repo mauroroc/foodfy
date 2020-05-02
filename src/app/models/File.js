@@ -31,7 +31,7 @@ module.exports = {
             }
         }catch(err) {
             console.error(err);
-        }   
+        }
         await db.query(`DELETE FROM recipe_files WHERE file_id = $1`, [id]);   
         return await db.query(`DELETE FROM files WHERE id = $1`, [id]);
     },
