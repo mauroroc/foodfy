@@ -1,8 +1,7 @@
 //const { date } = require('../../lib/utils');
-const Recipe = require('../models/recipe');
-const Chef = require('../models/chef');
-const File = require('../models/file');
-const User = require('../models/user');
+const Recipe = require('../models/Recipe');
+const File = require('../models/File');
+const User = require('../models/User');
 
 async function listAll(req){
     const results = await Recipe.all();

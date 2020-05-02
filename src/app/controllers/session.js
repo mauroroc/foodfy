@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const User = require('../models/User');
 const { compare, hash } = require('bcryptjs');
 const crypto = require('crypto');
 const mailer = require('../../config/mailer');
@@ -10,7 +10,7 @@ module.exports = {
     async login (req, res) {
         try {
             let message = '';
-            const results = await User.findOne(req.body.email);
+            const results = await User.findEmail(req.body.email);
             const item = results.rows[0];
             if (results.rowCount > 0) {
                 const passed = await compare(req.body.password, item.password);
@@ -20,7 +20,7 @@ module.exports = {
                 }
                 message = `Usuário logado com sucesso`;
                 req.session.userId = item.id;
-                if(item.is_admin) req.session.isAdmin = true;
+                item.is_admin ? req.session.isAdmin = true : req.session.isAdmin = false;
                 res.render("admin/profile", { msg: message, tipo: 'success', item });
             } else {
                 message = 'Usuário não encontrado';
@@ -28,7 +28,7 @@ module.exports = {
             } 
         } catch (error) {
             const message = 'Houve erro ao carregar o profile'
-            return res.render("admin/permissao", { msg: message } );
+            return res.render("admin/erro", { msg: message } );
         }
         
     },
@@ -74,7 +74,7 @@ module.exports = {
             res.render("admin/login_esqueceu", { msg: message, tipo : 'success'});
         } catch (error) {
             const message = 'Houve erro ao carregar o profile'
-            return res.render("admin/permissao", { msg: message } );
+            return res.render("admin/erro", { msg: message } );
         }      
     },
     async resetform (req, res) {

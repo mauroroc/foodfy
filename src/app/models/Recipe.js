@@ -1,5 +1,5 @@
 const db = require('../../config/db');
-const Files = require('./file');
+const Files = require('./File');
  
 module.exports = {
     all() {
@@ -145,6 +145,24 @@ module.exports = {
                 created_at 
             FROM recipes 
             WHERE chef_id = $1`, [_id]);
+        } else {
+            return false;
+        }
+    },
+    findAllUser (idUser) {
+        const _id = parseInt(idUser,10);
+        if (Number.isInteger(_id)) {
+            return db.query(`
+            SELECT 
+                id,
+                title,
+                ingredients,
+                preparation,
+                information,
+                chef_id,
+                created_at 
+            FROM recipes 
+            WHERE user_id = $1`, [_id]);
         } else {
             return false;
         }

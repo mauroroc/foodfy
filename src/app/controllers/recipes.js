@@ -1,6 +1,6 @@
-const Recipe = require('../models/recipe');
-const Chef = require('../models/chef');
-const File = require('../models/file');
+const Recipe = require('../models/Recipe');
+const Chef = require('../models/Chef');
+const File = require('../models/File');
 
 module.exports = {
     async index(req, res) 

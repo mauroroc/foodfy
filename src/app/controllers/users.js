@@ -1,6 +1,8 @@
-const User = require("../models/user");
+const User = require("../models/User");
 const crypto = require('crypto');
 const mailer = require('../../config/mailer');
+const Recipe = require("../models/Recipe");
+const File = require("../models/File");
 
 module.exports = {
     async list (req, res) {
@@ -17,9 +19,9 @@ module.exports = {
         res.render("admin/users_criacao");
     },
     async post (req, res) {
-        //try {
+        try {
             const { name, email, admin } = req.body;
-            const data = { name: name, email: email, is_admin: admin };
+            const data = { name: name, email: email, is_admin: admin, password: 'temporario' };
             data.is_admin = req.body.admin ? true : false;   
             const keys = Object.keys(req.body);
             for(key of keys) {
@@ -28,13 +30,12 @@ module.exports = {
                     return res.render("admin/users_criacao", { msg: message, tipo:'error', item: data } );
                 }
             };
-            let results = await User.findOne(email); 
+            let results = await User.findEmail(email); 
             if (results.rowCount>0) {
                 const message = 'Já existe um usuário cadastrado com esse e-mail';
                 return res.render("admin/users_criacao", { msg: message, tipo:'error', item: data});
             }        
-            results = await User.create(data);  
-            const id = results.rows[0].id;
+            const id = await User.create(data);  
             //token para o usuário
             const token = crypto.randomBytes(20).toString("hex");
             //data exp para o token
@@ -62,14 +63,14 @@ module.exports = {
             const items = results.rows;    
             const message = 'Usuário criado com sucesso. Acesse seu e-mail para gerar a senha'
             return res.render(`admin/users_listagem`, { msg: message, tipo: 'success', items});
-        /*} catch (error) {
+        } catch (error) {
             const message = 'Houve erro no processamento dessa página'
             return res.render("admin/permissao", { msg: message } );
-        }*/
+        }
     },
     async edit (req, res) {
         try {
-            const results = await User.find(req.params.id)
+            const results = await User.findId(req.params.id)
             const item = results.rows[0];
             if(!item) {
                 const results = await User.all();
@@ -85,9 +86,9 @@ module.exports = {
     },
     async put(req, res) { 
         try {
-            const data = req.body;
+            const data = { name: req.body.name, email: req.body.email };
             data.is_admin = req.body.admin ? true : false;
-            await User.update(data);
+            await User.update(data, req.body.id);
             const results = await User.all();
             const items = results.rows;
             const message = 'Usuário alterado com sucesso'   
@@ -99,12 +100,23 @@ module.exports = {
     },
     async delete(req, res) {
         const id = req.body.idDel;
-        let results = await User.hasRecipe(id);
+        //let results = await User.hasRecipe(id);
         if (id == req.session.userId) {
             const message = 'Você não pode excluir sua própria conta';
             const results2 = await User.find(id);
             const item = results2.rows[0];
             return res.render("admin/users_edicao", {msg: message, tipo: "error", item});
+        }
+        //pegar todas as receitas
+        results = await Recipe.findAllUser(id);
+        const recipes = results.rows;
+        for (recipe in recipes) {
+            results = await Recipe.files(recipe.id);
+            if (results.rows) {
+                results.rows.forEach(async element => {
+                await File.delete(element.id);
+                });
+            }
         }
         await User.delete(id)
         results = await User.all();

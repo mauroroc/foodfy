@@ -39,6 +39,11 @@ body {
     padding: 20px;
 }
 
+.adm_links a.active {
+    font-weight: bold;
+    color: #6558C3;
+}
+
 .logado {
     font-family: Roboto-Regular;
     font-size: 15px;
