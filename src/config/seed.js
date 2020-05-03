@@ -24,7 +24,7 @@ async function init() {
         password: passwordHash,
         is_admin: true
     };
-    //await User.create(data); 
+    await User.create(data); 
     console.log('Inserido usuário admin@teste.com.br com senha: teste');
     await createFileChefs();
     await createChefs();
@@ -79,7 +79,7 @@ async function createRecipes() {
                 preparation: geraFrases(Math.ceil(Math.random() * 5)),
                 information: faker.lorem.paragraph(),
                 chef_id: chefsIds[Math.floor(Math.random() * totalChefs)], 
-                user_id: 3
+                user_id: 1 // aqui tem que ser o id do usuário admin
             });
         }
         const recipesPromise = recipes.map(recipe => Recipe.create(recipe));
