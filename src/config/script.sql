@@ -69,5 +69,19 @@ ADD CONSTRAINT "recipe_files_recipe_id_fkey"
 FOREIGN KEY ("recipe_id") REFERENCES "recipes" ("id") ON DELETE CASCADE;
 
 ALTER TABLE "recipe_files"
-ADD CONSTRAINT "recipe_files_recipe_id_fkey" 
+ADD CONSTRAINT "recipe_files_file_id_fkey" 
 FOREIGN KEY ("file_id") REFERENCES "files" ("id") ON DELETE CASCADE;
+
+CREATE FUNCTION updated_changed() RETURNS TRIGGER
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    NEW.updated_at := current_date;
+  RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER trigger_updated_changed
+  BEFORE UPDATE ON recipes
+  FOR EACH ROW
+  EXECUTE PROCEDURE updated_changed();
