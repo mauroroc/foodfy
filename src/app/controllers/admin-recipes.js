@@ -44,6 +44,10 @@ module.exports = {
                 ...file,
                 src: `${req.protocol}://${req.headers.host}${file.path.replace("public","")}`
             }));
+            //Tive que inserir essa regra, pois o seed eventualmente cadastra mais de 5
+            while(files.length > 5) {
+                files.pop();
+            }
             return res.render("admin/detalhe", { item: recipe, files });
         } catch (error) {
             const message = 'Houve erro na visualização dessa página'

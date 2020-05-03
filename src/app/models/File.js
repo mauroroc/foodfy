@@ -15,7 +15,6 @@ module.exports = {
             filename,
             path
         ];
-
         const results = await db.query(query, values);
 
         if(recipe_id) db.query(`INSERT INTO recipe_files (recipe_id, file_id) VALUES ($1, $2)`, [recipe_id, results.rows[0].id]);
@@ -37,5 +36,25 @@ module.exports = {
     },
     list(id) {
         return db.query(`SELECT * FROM files WHERE id = $1`, [id]);
-    }
+    },
+    async createRecipeFile(item) {
+        try {
+            const { recipe_id, file_id } = item;
+            const query = `INSERT INTO recipe_files (recipe_id, file_id) VALUES ($1, $2) RETURNING id`;
+            const results = await db.query(query, [recipe_id, file_id]);
+            return results.rows[0].id; 
+        } catch (error) {
+            console.log(error);
+        } 
+    },
+    async createSeedFile(item) {
+        try {
+            const { name, path } = item;
+            const query = `INSERT INTO files (name, path) VALUES ($1, $2) RETURNING id`;
+            const results = await db.query(query, [name, path]);
+            return results.rows[0].id; 
+        } catch (error) {
+            console.log(error);
+        } 
+    },
 }

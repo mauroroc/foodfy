@@ -28,7 +28,7 @@ module.exports = {
         try {
             let { filter, page, limit } = req.query;
             page = page || 1;
-            limit = limit || 2;
+            limit = limit || 3;
             let offset = limit * (page - 1);
             if (filter) {
                 const results = await Recipe.findBy(filter, limit, offset); 
@@ -100,6 +100,10 @@ module.exports = {
                 ...file,
                 src: `${req.protocol}://${req.headers.host}${file.path.replace("public","")}`
             }));
+            //Tive que inserir essa regra, pois o seed eventualmente cadastra mais de 5
+            while(files.length > 5) {
+                files.pop();
+            }
             return res.render("receita", { item: recipe, files });
         } catch (error) {
             console.log(error);
